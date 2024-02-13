@@ -69,6 +69,9 @@ int handle_auth(ssh_session session) {
     struct connection con;
     con.session = session;
 
+    /* Set the server's host key algorithms. */
+    ssh_options_set(session, SSH_OPTIONS_HOSTKEYS, "ssh-rsa,rsa-sha2-512,rsa-sha2-256");
+    
     /* Perform key exchange. */
     if (ssh_handle_key_exchange(con.session)) {
         fprintf(stderr, "Error exchanging keys: `%s'.\n", ssh_get_error(con.session));
